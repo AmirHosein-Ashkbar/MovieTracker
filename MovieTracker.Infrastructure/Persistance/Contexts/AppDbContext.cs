@@ -10,11 +10,11 @@ public class AppDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        var x = modelBuilder.Entity<Movie>();   
-        modelBuilder.Entity<Movie>().Property(x => x.Id)
+        var x = modelBuilder.Entity<Movie>();
+        modelBuilder.Entity<Movie>().Property(x => x.Id);
         base.OnModelCreating(modelBuilder);
     }
 
-    DbSet<Movie>
+    public DbSet<Movie> Movies { get; set; }
 
 }
