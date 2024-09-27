@@ -6,12 +6,20 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+	<ItemGroup>
+		<Folder Include="Configurations\" />
+	</ItemGroup>
+	
   <ItemGroup>
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.8" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="8.0.8" />
+    <PackageReference Include="Microsoft.Extensions.Options.ConfigurationExtensions" Version="8.0.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="RestSharp" Version="112.0.0" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\MovieTracker.Application\MovieTracker.Application.csproj" />
     <ProjectReference Include="..\MovieTracker.Domain\MovieTracker.Domain.csproj" />
   </ItemGroup>
 

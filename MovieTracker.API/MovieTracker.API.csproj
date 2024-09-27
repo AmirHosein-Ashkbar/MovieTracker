@@ -4,10 +4,17 @@
     <TargetFramework>net8.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>def19c4b-7f14-49e6-af24-44d51a6b9018</UserSecretsId>
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="MediatR" Version="12.4.1" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\MovieTracker.Application\MovieTracker.Application.csproj" />
+    <ProjectReference Include="..\MovieTracker.Infrastructure\MovieTracker.Infrastructure.csproj" />
   </ItemGroup>
 
 </Project>
