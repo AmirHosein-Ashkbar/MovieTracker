@@ -4,7 +4,7 @@ using MovieTracker.Application.UseCases.Movie.Dtos;
 
 
 namespace MovieTracker.Application.UseCases.Movie.Queries.GetMovieByName;
-public class GetMovieByNameQueryHandler(IMovieDbApiService movieDbService) : IRequestHandler<GetMovieByNameQuery, List<MovieSearchDto>>
+public class GetMovieByNameQueryHandler(ITMDBApiService movieDbService) : IRequestHandler<GetMovieByNameQuery, List<MovieSearchDto>>
 {
    
     public async Task<List<MovieSearchDto>> Handle(GetMovieByNameQuery request, CancellationToken cancellationToken)

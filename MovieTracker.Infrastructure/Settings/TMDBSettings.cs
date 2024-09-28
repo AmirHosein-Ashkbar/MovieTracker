@@ -5,9 +5,9 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace MovieTracker.Infrastructure.Settings;
-public class MovieDbSettings
+public class TMDBSettings
 {
-    public static readonly string Name = "MovieDbSettings";
+    public static readonly string Name = "TMDBSettings";
     public string BaseUrl { get; set; }
     public string Token { get; set; }
     public string ImageBaseUrl { get; set; }

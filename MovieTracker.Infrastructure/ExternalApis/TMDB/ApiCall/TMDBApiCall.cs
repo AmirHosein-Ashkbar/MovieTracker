@@ -1,19 +1,18 @@
-﻿using Azure;
-using Azure.Core.Pipeline;
-using Microsoft.Extensions.Options;
-using MovieTracker.Infrastructure.ExternalApis.MovieDb.Models;
+﻿using Microsoft.Extensions.Options;
+using MovieTracker.Infrastructure.ExternalApis.TMDB.Models;
+using MovieTracker.Infrastructure.ExternalApis.TMDB.ApiCall;
 using MovieTracker.Infrastructure.Settings;
 using Newtonsoft.Json;
 using RestSharp;
 using RestSharp.Authenticators;
 
-namespace MovieTracker.Infrastructure.ExternalApis.MovieDb.ApiCall;
-public class MovieDbApiCall : IMovieDbApiCall
+namespace MovieTracker.Infrastructure.ExternalApis.TMDB.ApiCall;
+public class TMDBApiCall : ITMDBApiCall
 {
-    private MovieDbSettings _settings;
+    private TMDBSettings _settings;
     private RestClientOptions _clientOptions;
 
-    public MovieDbApiCall(IOptionsSnapshot<MovieDbSettings> settings)
+    public TMDBApiCall(IOptionsSnapshot<TMDBSettings> settings)
     {
         _settings = settings.Value;
 

@@ -1,17 +1,17 @@
 ﻿using MovieTracker.Application.Contracts.ExternalApisServices;
 using MovieTracker.Application.UseCases.Movie.Dtos;
-using MovieTracker.Infrastructure.ExternalApis.MovieDb.ApiCall;
+using MovieTracker.Infrastructure.ExternalApis.TMDB.ApiCall;
 
 
-namespace MovieTracker.Infrastructure.ExternalApis.MovieDb.ExternalApiService;
-public class MovieDbApiService(IMovieDbApiCall movieDbApiCall) : IMovieDbApiService
+namespace MovieTracker.Infrastructure.ExternalApis.TMDB.ExternalApiService;
+public class TMDBApiService(ITMDBApiCall TMDBApiCall) : ITMDBApiService
 {
 
 
 
     public async Task<List<MovieSearchDto>> GetMovieByName(string name)
     {
-        var response = await movieDbApiCall.GetMovieByName(name);
+        var response = await TMDBApiCall.GetMovieByName(name);
         var movieList = response.Results.Select(m => new MovieSearchDto
         (
             TMDBId: m.Id,

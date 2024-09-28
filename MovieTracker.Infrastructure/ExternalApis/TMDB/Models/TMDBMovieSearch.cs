@@ -1,6 +1,6 @@
 ﻿using Newtonsoft.Json;
 
-namespace MovieTracker.Infrastructure.ExternalApis.MovieDb.Models;
+namespace MovieTracker.Infrastructure.ExternalApis.TMDB.Models;
 
 public class TMDBMovieSearch
 {

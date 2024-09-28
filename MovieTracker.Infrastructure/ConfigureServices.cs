@@ -1,8 +1,8 @@
 ﻿using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MovieTracker.Application.Contracts.ExternalApisServices;
-using MovieTracker.Infrastructure.ExternalApis.MovieDb.ApiCall;
-using MovieTracker.Infrastructure.ExternalApis.MovieDb.ExternalApiService;
+using MovieTracker.Infrastructure.ExternalApis.TMDB.ApiCall;
+using MovieTracker.Infrastructure.ExternalApis.TMDB.ExternalApiService;
 using MovieTracker.Infrastructure.Settings;
 
 
@@ -11,9 +11,9 @@ public static class ConfigureServices
 {
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
     {
-        services.AddScoped<IMovieDbApiCall, MovieDbApiCall>();
-        services.AddScoped<IMovieDbApiService, MovieDbApiService>();
-        services.Configure<MovieDbSettings>(configuration.GetSection(MovieDbSettings.Name));
+        services.AddScoped<ITMDBApiCall, TMDBApiCall>();
+        services.AddScoped<ITMDBApiService, TMDBApiService>();
+        services.Configure<TMDBSettings>(configuration.GetSection(TMDBSettings.Name));
 
         return services;
     }
