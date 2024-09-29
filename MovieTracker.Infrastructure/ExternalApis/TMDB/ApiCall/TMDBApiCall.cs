@@ -40,4 +40,21 @@ public class TMDBApiCall : ITMDBApiCall
 
         
     }
+
+    public async Task<TMDBMovieDetails> GetMovieDetailsById(int Id)
+    {
+        var client = new RestClient(_clientOptions);
+        var request = new RestRequest($"movies/{Id}");
+        request.AddQueryParameter("include_adult", false);
+        try
+        {
+            var response = await client.GetAsync(request);
+            var result = JsonConvert.DeserializeObject<TMDBMovieDetails>(response.Content);
+            return result;
+        }
+        catch (Exception ex)
+        {
+            throw ex;
+        }
+    }
 }

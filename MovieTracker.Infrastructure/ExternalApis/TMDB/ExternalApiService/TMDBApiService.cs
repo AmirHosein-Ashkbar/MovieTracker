@@ -28,4 +28,25 @@ public class TMDBApiService(ITMDBApiCall TMDBApiCall) : ITMDBApiService
         return movieList;
 
     }
+
+    public async Task<MovieDetailsDto> GetMovieDetailsById(int Id)
+    {
+        var response = await TMDBApiCall.GetMovieDetailsById(Id);
+        var movie = new MovieDetailsDto(
+            TMDBId: response.Id,
+            PosterPath: response.PosterPath,
+            BackdropPath: response.BackdropPath,
+            OriginalLanguage: response.OriginalLanguage,
+            Duration: response.Runtime,
+            TagLine: response.Tagline,
+            Status: response.Status,
+            OriginCountry: response.OriginCountry,//to check
+            OriginalTitle: response.OriginalTitle,
+            Overview: response.Overview,
+            Popularity: response.Popularity,
+            ReleaseDate: response.ReleaseDate,
+            Title: response.Title
+            );
+        return movie;
+    }
 }
