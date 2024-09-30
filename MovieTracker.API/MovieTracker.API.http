@@ -4,3 +4,8 @@
   
 GET {{Host}}/api/movies/get/76
 Accept: application/json
+
+###
+
+GET {{Host}}/api/movies/search?name=john%20wick
+Accept: application/json
