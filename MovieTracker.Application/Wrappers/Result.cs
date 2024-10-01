@@ -16,11 +16,11 @@ public class Result<T>
         _errors = new List<string>();
     }
 
-    private Result(List<string> error)
+    private Result(string message, List<string> error)
     {
         _isSuccess = false;
         _data = default;
-        _message = string.Empty;
+        _message = message;
         _errors = new List<string>();
     }
 

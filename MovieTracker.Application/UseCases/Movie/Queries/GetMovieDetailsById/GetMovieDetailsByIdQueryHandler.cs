@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using ErrorOr;
+using MediatR;
 using MovieTracker.Application.Contracts.ExternalApisServices;
 using MovieTracker.Application.UseCases.Movie.Dtos;
 
