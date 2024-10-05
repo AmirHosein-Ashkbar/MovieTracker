@@ -6,10 +6,10 @@ namespace MovieTracker.Application.Wrappers;
 
 public class Result<T>
 {
+    public bool IsSuccess { get; }
     public T Data { get; }
     public string Message { get; }
     public List<Error> Errors { get; }
-    public bool IsSuccess { get; }
 
     private Result(T data)
     {
@@ -33,13 +33,16 @@ public class Result<T>
         return new Result<T>(data);
     }
 
-    public static Result<T> Failure(string message, List<Error> errors)
-    {
+    public static Result<T> Failure(string message, Error error) => 
+        new Result<T>(message, new List<Error> { error });
 
-        return new Result<T>(message, errors);
-    }
+    public static Result<T> Failure(string message, List<Error> errors) =>
+        new Result<T>(message, errors);
+    
 
     public static implicit operator Result<T>(T data) => Result<T>.Success(data);
+
+    public static implicit operator Result<T>(Error error) => Result<T>.Failure("Error", error);
 
     public static implicit operator Result<T>(List<Error> errors) => Result<T>.Failure("Error",errors);
 }
