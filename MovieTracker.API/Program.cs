@@ -1,14 +1,16 @@
 using HealthChecks.UI.Client;
-using HealthChecks.UI.Core;
-using Microsoft.AspNetCore.Diagnostics;
 using Microsoft.AspNetCore.Diagnostics.HealthChecks;
-using Microsoft.Extensions.DependencyInjection;
 using MovieTracker.API.Extensions;
 using MovieTracker.API.HealthChecks;
-using MovieTracker.API.Infrastructure;
 using MovieTracker.Application;
 using MovieTracker.Infrastructure;
+using Serilog;
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Host.UseSerilog((context,configuration) => 
+    configuration.ReadFrom.Configuration(context.Configuration));
+
+
 
 
 builder.Services.AddControllers();
@@ -32,12 +34,16 @@ builder.Services.AddProblemDetails(
 
 var app = builder.Build();
 
+app.UseSerilogRequestLogging();
+
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
 
 app.UseHttpsRedirection();
 
