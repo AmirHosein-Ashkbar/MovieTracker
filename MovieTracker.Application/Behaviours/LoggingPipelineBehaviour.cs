@@ -15,10 +15,10 @@ public class LoggingPipelineBehaviour<TRequest, TResponse> : IPipelineBehavior<T
 
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
-        _logger.LogInformation($"Starting request {typeof(TRequest).Name}, {DateTime.UtcNow}");
+        var start = DateTime.UtcNow;
         var result = await next();
-        _logger.LogInformation($"Completed request {typeof(TRequest).Name}, {DateTime.UtcNow}");
-        _logger.LogError("error rrrrrrldrlelrel;re;");
+        var end = DateTime.UtcNow;
+        _logger.LogInformation($"{typeof(TRequest).Name} took: {(end - start).Milliseconds} Milliseconds");
         return result;
     }
 }
