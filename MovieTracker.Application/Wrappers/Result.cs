@@ -1,27 +1,30 @@
 ﻿
+using MovieTracker.Application.Errors;
+using System.Reflection.Metadata.Ecma335;
+
 namespace MovieTracker.Application.Wrappers;
 
 public class Result<T>
 {
-    private readonly T? _data;
-    private readonly string _message;
-    private readonly List<string> _errors;
-    private readonly bool _isSuccess;
+    public T Data { get; }
+    public string Message { get; }
+    public List<Error> Errors { get; }
+    public bool IsSuccess { get; }
 
     private Result(T data)
     {
-        _isSuccess = false;
-        _data = data;
-        _message = string.Empty;
-        _errors = new List<string>();
+        IsSuccess = true;
+        Data = data;
+        Message = string.Empty;
+        Errors = new List<Error>();
     }
 
-    private Result(string message, List<string> error)
+    private Result(string message, List<Error> errors)
     {
-        _isSuccess = false;
-        _data = default;
-        _message = message;
-        _errors = new List<string>();
+        IsSuccess = false;
+        Data = default;
+        Message = message;
+        Errors = errors;
     }
 
     public static Result<T> Success(T data)
@@ -30,4 +33,13 @@ public class Result<T>
         return new Result<T>(data);
     }
 
+    public static Result<T> Failure(string message, List<Error> errors)
+    {
+
+        return new Result<T>(message, errors);
+    }
+
+    public static implicit operator Result<T>(T data) => Result<T>.Success(data);
+
+    public static implicit operator Result<T>(List<Error> errors) => Result<T>.Failure("Error",errors);
 }
