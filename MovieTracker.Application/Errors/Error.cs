@@ -10,11 +10,12 @@ public class Error
         Code = code;
         Description = description;
         Type = type;
+        StatusCode = statusCode;
     }
     public string Code { get; set; }
     public string Description { get; set; }
     public ErrorType Type { get; set; }
-    public string StatusCode { get; set; }
+    public int StatusCode { get; set; }
 
     public static Error Unexpected(string code = "Unexpected", string description = "An unexpected error happend.")
         => new Error(code, description, ErrorType.Unexpected, StatusCodes.Status500InternalServerError);
@@ -40,11 +41,11 @@ public class Error
 }
 public enum ErrorType
 {
-    Failure,
-    Unexpected,
-    Conflict,
-    Validation,
-    NotFound,
-    Unauthorized,
-    Forbidden 
+    Failure = 1,
+    Unexpected = 2,
+    Conflict = 3,
+    Validation = 4,
+    NotFound = 5,
+    Unauthorized = 6,
+    Forbidden = 7 
 }
