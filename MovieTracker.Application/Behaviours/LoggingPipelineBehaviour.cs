@@ -1,10 +1,12 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
+using MovieTracker.Application.Wrappers;
 
 namespace MovieTracker.Application.Behaviours;
 
 public class LoggingPipelineBehaviour<TRequest, TResponse> : IPipelineBehavior<TRequest, TResponse>
     where TRequest : notnull, IRequest<TResponse>
+    where TResponse : Result<TResponse>
 {
     private readonly ILogger<LoggingPipelineBehaviour<TRequest, TResponse>> _logger;
 
@@ -19,6 +21,8 @@ public class LoggingPipelineBehaviour<TRequest, TResponse> : IPipelineBehavior<T
         var result = await next();
         var end = DateTime.UtcNow;
         _logger.LogInformation($"{typeof(TRequest).Name} took: {(end - start).Milliseconds} Milliseconds");
+        if (!result.IsSuccess)
+            _logger.LogError($"{result.Errors} ");
         return result;
     }
 }
