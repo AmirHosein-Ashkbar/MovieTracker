@@ -1,15 +1,16 @@
 ﻿using MediatR;
 using MovieTracker.Application.Contracts.ExternalApisServices;
+using MovieTracker.Application.Contracts.MediatrR;
 using MovieTracker.Application.Errors;
 using MovieTracker.Application.UseCases.Movie.Dtos;
 using MovieTracker.Application.Wrappers;
 
 namespace MovieTracker.Application.UseCases.Movie.Queries.GetMovieDetailsById;
 
-public record GetMovieDetailsByIdQuery(int Id) : IRequest<Result<MovieDetailsDto>>;
+public record GetMovieDetailsByIdQuery(int Id) : IQuery<MovieDetailsDto>;
 
 
-public class GetMovieDetailsByIdQueryHandler(ITMDBApiService TMDBApiService) : IRequestHandler<GetMovieDetailsByIdQuery, Result<MovieDetailsDto>>
+public class GetMovieDetailsByIdQueryHandler(ITMDBApiService TMDBApiService) : IQueryHandler<GetMovieDetailsByIdQuery, MovieDetailsDto>
 {
     public async Task<Result<MovieDetailsDto>> Handle(GetMovieDetailsByIdQuery request, CancellationToken cancellationToken)
     {
