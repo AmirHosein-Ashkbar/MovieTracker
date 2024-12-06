@@ -1,5 +1,7 @@
 ﻿
+using MediatR;
 using Microsoft.Extensions.DependencyInjection;
+using MovieTracker.Application.Behaviours;
 
 namespace MovieTracker.Application;
 public static class ConfigureServices
@@ -8,6 +10,14 @@ public static class ConfigureServices
     {
         var assembly = typeof(ConfigureServices).Assembly;
         services.AddMediatR(configuration => configuration.RegisterServicesFromAssembly(assembly));
+        
+        services.AddScoped(
+            typeof(IPipelineBehavior<,>), 
+            typeof(LoggingPipelineBehaviour<,>));
+
+
+
+
         return services;
     }
 }
