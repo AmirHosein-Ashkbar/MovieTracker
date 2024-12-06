@@ -23,8 +23,8 @@ public class Result : IResult
     }
 
     public static Result Success() => new Result(true, Error.None());
-
-
+    
+    public static Result Success<TValue>(List<TValue> values, int pageNumber, int pageSize) => new PaginatedResult<TValue>(values, pageNumber, pageSize, true, Error.None());
 
     public static Result<TValue> Success<TValue>(TValue value) => 
         new Result<TValue>(value, true, Error.None(), "");
