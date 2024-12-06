@@ -24,7 +24,6 @@ builder.Services.AddHealthChecks()
     .AddCheck<TMDBHealthCheck>("TMDB")
     .AddCheck<SampleHealthCheck>("sample");
 
-//builder.Services.AddExceptionHandler<GlobalExceptionHandler>();
 builder.Services.AddProblemDetails( 
     options => options.CustomizeProblemDetails = context =>
     {
@@ -37,7 +36,6 @@ var app = builder.Build();
 app.UseSerilogRequestLogging();
 
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();

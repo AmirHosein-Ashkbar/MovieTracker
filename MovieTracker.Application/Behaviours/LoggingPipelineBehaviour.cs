@@ -22,7 +22,7 @@ public class LoggingPipelineBehaviour<TRequest, TResponse> : IPipelineBehavior<T
         var end = DateTime.UtcNow;
         _logger.LogInformation($"{typeof(TRequest).Name} took: {(end - start).Milliseconds} Milliseconds");
         if (!result.IsSuccess)
-            _logger.LogError($"{result.Errors} ");
+            _logger.LogError($"{result.Error}");
         return result;
     }
 }

@@ -1,9 +1,8 @@
-﻿
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 
 namespace MovieTracker.Application.Errors;
 
-public class Error
+public record Error
 {
     private Error(string code, string description, ErrorType type, int statusCode)
     {
@@ -16,6 +15,14 @@ public class Error
     public string Description { get; set; }
     public ErrorType Type { get; set; }
     public int StatusCode { get; set; }
+    public static Error None()
+        => new Error(string.Empty, string.Empty, ErrorType.None, 0);
+
+    public static Error BadRequest(string code = "BadRequest", string description = "BadRequest.")
+       => new Error(code, description, ErrorType.BadRequest, StatusCodes.Status400BadRequest);
+
+    public static Error Unprocessable(string code = "Unprocessable", string description = "Request is unprocessable.")
+       => new Error(code, description, ErrorType.Unprocessable, StatusCodes.Status422UnprocessableEntity);
 
     public static Error Unexpected(string code = "Unexpected", string description = "An unexpected error happend.")
         => new Error(code, description, ErrorType.Unexpected, StatusCodes.Status500InternalServerError);
@@ -41,11 +48,14 @@ public class Error
 }
 public enum ErrorType
 {
-    Failure = 1,
-    Unexpected = 2,
+    None = 0,
+    BadRequest = 1,
+    Unprocessable = 2,
     Conflict = 3,
     Validation = 4,
     NotFound = 5,
     Unauthorized = 6,
-    Forbidden = 7 
+    Forbidden = 7, 
+    Unexpected = 8,
+    Failure = 9,
 }

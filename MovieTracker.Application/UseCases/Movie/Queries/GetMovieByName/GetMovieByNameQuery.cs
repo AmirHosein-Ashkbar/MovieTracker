@@ -16,7 +16,7 @@ public class GetMovieByNameQueryHandler(ITMDBApiService movieDbService) : IReque
     {
         var response = await movieDbService.GetMovieByName(request.name);
 
-        if (response.Count <= 0)
+        if (response.Count <= 0 || response is null)
             return Error.NotFound();
 
         return response;

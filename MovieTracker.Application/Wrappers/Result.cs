@@ -1,48 +1,62 @@
 ﻿
 using MovieTracker.Application.Errors;
-using System.Reflection.Metadata.Ecma335;
 
 namespace MovieTracker.Application.Wrappers;
 
-public class Result<T>
+public class Result : IResult   
 {
     public bool IsSuccess { get; }
-    public T Data { get; }
-    public string Message { get; }
-    public List<Error> Errors { get; }
+    public string Message { get; } = string.Empty;
+    public Error Error { get; }
 
-    private Result(T data)
+    protected Result(bool isSuccess, Error error, string message = "")
     {
-        IsSuccess = true;
-        Data = data;
-        Message = string.Empty;
-        Errors = new List<Error>();
-    }
+        if(isSuccess && error != Error.None() ||
+            !isSuccess && error == Error.None())
+        {
+            throw new ArgumentException("Invalid error", nameof(error));
+        }
 
-    private Result(string message, List<Error> errors)
-    {
-        IsSuccess = false;
-        Data = default;
+        IsSuccess = isSuccess;
+        Error = error;
         Message = message;
-        Errors = errors;
     }
 
-    public static Result<T> Success(T data)
-    {
+    public static Result Success() => new Result(true, Error.None());
 
-        return new Result<T>(data);
-    }
 
-    public static Result<T> Failure(string message, Error error) => 
-        new Result<T>(message, new List<Error> { error });
 
-    public static Result<T> Failure(string message, List<Error> errors) =>
-        new Result<T>(message, errors);
-    
+    public static Result<TValue> Success<TValue>(TValue value) => 
+        new Result<TValue>(value, true, Error.None(), "");
 
-    public static implicit operator Result<T>(T data) => Result<T>.Success(data);
+    public static Result Failure(Error error, string message = "Failure") => 
+        new Result(false, error, message);
 
-    public static implicit operator Result<T>(Error error) => Result<T>.Failure("Error", error);
+    public static Result<TValue> Failure<TValue>(Error error, string message = "Failure") =>
+        new Result<TValue>(default, false, error, message);
 
-    public static implicit operator Result<T>(List<Error> errors) => Result<T>.Failure("Error",errors);
+
 }
+
+public class Result<TValue> : Result
+{
+    private readonly TValue? _value;
+
+    public Result(TValue? value, bool isSuccess, Error error, string message) : base(isSuccess, error, message) 
+    {
+        _value = value;
+    }
+
+    public TValue Value => IsSuccess
+        ? _value!
+        : throw new InvalidOperationException("the value of a failure result can't be accessed.");
+
+    public static implicit operator Result<TValue>(TValue data) => Result<TValue>.Success(data);
+
+    public static implicit operator Result<TValue>(Error error) => Result<TValue>.Failure<TValue>(error);
+}
+
+
+
+
+
