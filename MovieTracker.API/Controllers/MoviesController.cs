@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using MovieTracker.Application.UseCases.Movie.Dtos;
 using MovieTracker.Application.UseCases.Movie.Queries.GetMovieByName;
 using MovieTracker.Application.UseCases.Movie.Queries.GetMovieDetailsById;
 using System.Net.Mime;
@@ -14,11 +15,8 @@ public class MoviesController(IMediator mediatr) : BaseController
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Get([FromQuery] string name)
-    {
-        var result = await mediatr.Send(new GetMovieByNameQuery(name));
-        return Ok(result);
-    }
+    public async Task<IActionResult> Get([FromQuery] string name) => 
+        await SendAsync(new GetMovieByNameQuery(name));
 
 
     [HttpGet]
