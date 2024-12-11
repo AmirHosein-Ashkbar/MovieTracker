@@ -6,10 +6,12 @@ using MovieTracker.Application.Errors;
 using FluentValidation.Results;
 using System.Threading;
 using System.Reflection;
+using Microsoft.Extensions.Logging;
 
 namespace MovieTracker.Application.Behaviours;
 
-public class ValidationPipelineBehaviour<TRequest, TResponse>(IEnumerable<IValidator<TRequest>> validators)
+public class ValidationPipelineBehaviour<TRequest, TResponse>(IEnumerable<IValidator<TRequest>> validators,
+    ILogger<LoggingPipelineBehaviour<TRequest, TResponse>> logger)
     : IPipelineBehavior<TRequest, TResponse>
     where TRequest : class
     where TResponse : Result
@@ -32,29 +34,9 @@ public class ValidationPipelineBehaviour<TRequest, TResponse>(IEnumerable<IValid
                 .ToList();
 
             if (failures.Count > 0)
+                logger.LogError("Validation Error: {Error}", failures.Select(x => new {x.PropertyName, x.ErrorMessage}).ToList());
                 throw new FluentValidation.ValidationException(failures);
         }
         return await next().ConfigureAwait(false);
-    }
-
-    private async Task<ValidationFailure[]> ValidateAsync(TRequest request)
-    {
-        if (!validators.Any())
-            return [];
-
-        var context = new ValidationContext<TRequest>(request);
-
-
-        var validationResults = await Task.WhenAll(
-        validators.Select(v =>
-                   v.ValidateAsync(context)));
-
-        var failures = validationResults
-                .Where(r => !r.IsValid)
-                .SelectMany(r => r.Errors)
-                .ToArray();
-
-        return failures;
-
     }
 }

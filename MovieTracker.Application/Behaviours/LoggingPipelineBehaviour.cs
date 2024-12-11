@@ -18,11 +18,21 @@ public class LoggingPipelineBehaviour<TRequest, TResponse> : IPipelineBehavior<T
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
         var start = DateTime.UtcNow;
-        var result = await next();
-        var end = DateTime.UtcNow;
-        _logger.LogInformation($"{typeof(TRequest).Name} took: {(end - start).Milliseconds} Milliseconds");
-        if (!result.IsSuccess)
-            _logger.LogError($"{result.Error} ");
-        return result;
+        try
+        {
+            var result = await next();
+            var end = DateTime.UtcNow;
+            _logger.LogInformation($"{typeof(TRequest).Name} took: {(end - start).Milliseconds} Milliseconds");
+            if (!result.IsSuccess)
+                _logger.LogError($"{result.Error} ");
+            return result;
+        }
+        catch (Exception ex)
+        {
+
+            _logger.LogCritical("Unexpected error happend: {Error}", ex);
+            throw ex ?? new Exception("Unexpected error happend");
+        }
+        
     }
 }
