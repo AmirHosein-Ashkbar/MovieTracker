@@ -25,9 +25,6 @@ public class MoviesController(IMediator mediatr) : BaseController
     [ProducesResponseType(StatusCodes.Status200OK)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
     [ProducesResponseType(StatusCodes.Status404NotFound)]
-    public async Task<IActionResult> Get([FromRoute] int Id)
-    {
-        var result = await mediatr.Send(new GetMovieDetailsByIdQuery(Id));
-        return Ok(result);
-    }
+    public async Task<IActionResult> Get([FromRoute] int Id) =>
+        await SendAsync(new GetMovieDetailsByIdQuery(Id));
 }

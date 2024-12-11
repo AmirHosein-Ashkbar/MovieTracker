@@ -1,4 +1,4 @@
-//@MovieTracker.API_HostAddress = http://localhost:5245
+//@MovieTracker.API_HostAddress = https://localhost:7104
 @Host = https://localhost:7104
 ###
   
@@ -9,3 +9,12 @@ Accept: application/json
 
 GET {{Host}}/api/movies/search?name=inception
 Accept: application/json
+###
+
+GET {{Host}}/api/movies/get/{Id}
+
+###
+
+GET {{Host}}/api/movies/search?name=no strings attached
+
+###
