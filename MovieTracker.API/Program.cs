@@ -1,47 +1,43 @@
-using HealthChecks.UI.Client;
-using Microsoft.AspNetCore.Diagnostics.HealthChecks;
 using MovieTracker.API.Extensions;
-using MovieTracker.API.HealthChecks;
+using MovieTracker.API.Middlewares;
 using MovieTracker.Application;
 using MovieTracker.Infrastructure;
 using Serilog;
+
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Host.UseSerilog((context,configuration) => 
     configuration.ReadFrom.Configuration(context.Configuration));
 
-
-
-
+builder.Services.AddMiddlewares();
 builder.Services.AddControllers();
 builder.Services.AddSwagger();
+
+builder.Services.AddHealthCheck();  
 
 builder.Services
     .AddApplication()
     .AddInfrastructure(builder.Configuration);
 
-builder.Services.AddHealthChecks()
-    .AddCheck<TMDBHealthCheck>("TMDB")
-    .AddCheck<SampleHealthCheck>("sample");
-
-builder.Services.AddProblemDetails( 
+builder.Services.AddProblemDetails(
     options => options.CustomizeProblemDetails = context =>
     {
         context.ProblemDetails.Extensions["traceId"] = context.HttpContext.TraceIdentifier;
+        context.ProblemDetails.Extensions["method"] = context.HttpContext.Request.Method;
+        context.ProblemDetails.Extensions["route"] = context.HttpContext.Request.Path.Value;
     });
 
 
 var app = builder.Build();
 
+app.MapHealthChecks();
+
+app.MapControllers();
+
+
+app.UseSwaggerMiddleware();
+
 app.UseSerilogRequestLogging();
-
-
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-
 
 app.UseHttpsRedirection();
 
@@ -49,11 +45,7 @@ app.UseAuthorization();
 
 app.UseExceptionHandler();
 
-app.MapControllers();
+app.UseMiddleware<ValidationExceptionHandlingMiddleware>();
 
-app.MapHealthChecks("/healthz", new HealthCheckOptions
-{
-    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
-});
 
 app.Run();
