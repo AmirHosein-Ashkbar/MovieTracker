@@ -1,6 +1,7 @@
 ﻿using MediatR;
 using Microsoft.Extensions.Logging;
 using MovieTracker.Application.Wrappers;
+using System.Diagnostics;
 
 namespace MovieTracker.Application.Behaviours;
 
@@ -17,22 +18,27 @@ public class LoggingPipelineBehaviour<TRequest, TResponse> : IPipelineBehavior<T
 
     public async Task<TResponse> Handle(TRequest request, RequestHandlerDelegate<TResponse> next, CancellationToken cancellationToken)
     {
-        var start = DateTime.UtcNow;
-        try
-        {
-            var result = await next();
-            var end = DateTime.UtcNow;
-            _logger.LogInformation($"{typeof(TRequest).Name} took: {(end - start).Milliseconds} Milliseconds");
-            if (!result.IsSuccess)
-                _logger.LogError($"{result.Error} ");
-            return result;
-        }
-        catch (Exception ex)
-        {
+        string requestName = typeof(TRequest).Name;
 
-            _logger.LogCritical("Unexpected error happend: {Error}", ex);
-            throw ex ?? new Exception("Unexpected error happend");
+        _logger.LogInformation("Processing request {RequestName}", requestName);
+
+        Stopwatch sw = Stopwatch.StartNew();
+        var result = await next();
+        sw.Stop();
+        var executionTime = sw.Elapsed.TotalMilliseconds;
+
+        if (result.IsSuccess)
+        {
+            _logger.LogInformation("Completed request {Request} in  took: {} Milliseconds", requestName, executionTime);
         }
+        else
+        {
+            _logger.LogError("Completed request {RequestName} with error: {Error}", requestName, result.Error);
+
+        }
+        
+            
+        return result;
         
     }
 }

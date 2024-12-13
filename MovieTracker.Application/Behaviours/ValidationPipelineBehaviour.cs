@@ -34,8 +34,11 @@ public class ValidationPipelineBehaviour<TRequest, TResponse>(IEnumerable<IValid
                 .ToList();
 
             if (failures.Count > 0)
-                logger.LogError("Validation Error: {Error}", failures.Select(x => new {x.PropertyName, x.ErrorMessage}).ToList());
+            {
+                logger.LogError("Validation Error: {Error}", failures.Select(x => new { x.PropertyName, x.ErrorMessage }).ToList());
                 throw new FluentValidation.ValidationException(failures);
+            }
+                
         }
         return await next().ConfigureAwait(false);
     }

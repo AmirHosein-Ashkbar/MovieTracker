@@ -14,6 +14,7 @@ public static class ConfigureServices
         services.AddMediatR(configuration =>
         {
             configuration.RegisterServicesFromAssembly(assembly);
+            configuration.AddOpenBehavior(typeof(ExceptionHandlingPipelineBehaviour<,>));
             configuration.AddOpenBehavior(typeof(LoggingPipelineBehaviour<,>));
             configuration.AddOpenBehavior(typeof(ValidationPipelineBehaviour<,>));
         });
