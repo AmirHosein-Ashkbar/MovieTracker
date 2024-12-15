@@ -1,6 +1,4 @@
-﻿using FluentValidation;
-using MovieTracker.API.HealthChecks;
-using MovieTracker.API.Middlewares;
+﻿using MovieTracker.API.HealthChecks;
 
 namespace MovieTracker.API.Extensions;
 
@@ -24,7 +22,6 @@ public static class ServiceCollectionExtension
 
     public static IServiceCollection AddMiddlewares(this IServiceCollection services)
     {
-        services.AddTransient<ValidationExceptionHandlingMiddleware>();        
         return services;
 
     }

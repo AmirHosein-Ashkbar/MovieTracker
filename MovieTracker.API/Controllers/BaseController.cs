@@ -19,7 +19,7 @@ public class BaseController : ControllerBase
             return result.ToProblemDetails();
 
 
-        return Ok(result);
+        return Ok(result);  
     }
 
 

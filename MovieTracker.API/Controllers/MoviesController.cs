@@ -1,13 +1,11 @@
-﻿using MediatR;
-using Microsoft.AspNetCore.Mvc;
-using MovieTracker.Application.UseCases.Movie.Dtos;
+﻿using Microsoft.AspNetCore.Mvc;
 using MovieTracker.Application.UseCases.Movie.Queries.GetMovieByName;
 using MovieTracker.Application.UseCases.Movie.Queries.GetMovieDetailsById;
 using System.Net.Mime;
 
 namespace MovieTracker.API.Controllers;
 
-public class MoviesController(IMediator mediatr) : BaseController
+public class MoviesController : BaseController
 {
     [HttpGet]
     [Route("search")]

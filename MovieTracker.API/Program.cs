@@ -1,5 +1,5 @@
 using MovieTracker.API.Extensions;
-using MovieTracker.API.Middlewares;
+using MovieTracker.API.Filters;
 using MovieTracker.Application;
 using MovieTracker.Infrastructure;
 using Serilog;
@@ -10,7 +10,13 @@ builder.Host.UseSerilog((context,configuration) =>
     configuration.ReadFrom.Configuration(context.Configuration));
 
 builder.Services.AddMiddlewares();
-builder.Services.AddControllers();
+
+builder.Services.AddControllers(configuration =>
+{
+    configuration.Filters.Add<ValidationExceptionHandlingFilter>();
+});
+    
+
 builder.Services.AddSwagger();
 
 builder.Services.AddHealthCheck();  
@@ -44,8 +50,6 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.UseExceptionHandler();
-
-app.UseMiddleware<ValidationExceptionHandlingMiddleware>();
 
 
 app.Run();

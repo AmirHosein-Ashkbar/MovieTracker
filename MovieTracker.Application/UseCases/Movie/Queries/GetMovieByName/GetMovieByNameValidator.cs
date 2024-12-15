@@ -6,6 +6,6 @@ public class GetMovieByNameValidator : AbstractValidator<GetMovieByNameQuery>
 {
     public GetMovieByNameValidator()
     {
-        RuleFor(x => x.name).NotEmpty().NotNull();    
+        RuleFor(x => x.name).NotEmpty().NotNull().MaximumLength(3);    
     }
 }

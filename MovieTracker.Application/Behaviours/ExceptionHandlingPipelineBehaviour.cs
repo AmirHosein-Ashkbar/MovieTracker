@@ -16,7 +16,7 @@ public class ExceptionHandlingPipelineBehaviour<TRequest, TResponse>(
 		catch (Exception exception)
 		{
 			logger.LogError(exception, "An exception occured for {RequestName}", typeof(TRequest).Name);
-			throw;
+			throw ;
 		}
     }
 }
