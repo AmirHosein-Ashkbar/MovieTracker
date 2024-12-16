@@ -40,5 +40,6 @@ public static class ResultExtensions
             ErrorType.Unexpected => "https://datatracker.ietf.org/doc/html/rfc9110#name-500-internal-server-error",
             ErrorType.Failure => "https://datatracker.ietf.org/doc/html/rfc9110#name-500-internal-server-error",
             ErrorType.Unprocessable => "https://datatracker.ietf.org/doc/html/rfc9110#name-422-unprocessable-content",
+            _ => "https://datatracker.ietf.org/doc/html/rfc9110#name-400-bad-request"
         };
 }
