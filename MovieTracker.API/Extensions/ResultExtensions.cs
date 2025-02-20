@@ -27,7 +27,7 @@ public static class ResultExtensions
         return new ObjectResult(problem);
 
     }
-
+    
     static string GetType(ErrorType errorType) =>
         errorType switch
         {

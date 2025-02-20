@@ -2,7 +2,7 @@
 using MovieTracker.Application.Wrappers;
 
 namespace MovieTracker.Application.Contracts.MediatrR;
-public interface ICommandHandler<TCommand> : IRequestHandler<TCommand, Result> where TCommand : ICommand<Result>
+public interface ICommandHandler<TCommand> : IRequestHandler<TCommand, Result> where TCommand : ICommand
 {
 }
 

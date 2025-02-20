@@ -29,11 +29,17 @@ public class Result : IResult
     public static Result<TValue> Success<TValue>(TValue value) => 
         new Result<TValue>(value, true, Error.None(), "");
 
+
+    public static Result Failure(string message = "Failure") =>
+        new Result(false, Error.BadRequest(), message);
+
     public static Result Failure(Error error, string message = "Failure") => 
         new Result(false, error, message);
 
     public static Result<TValue> Failure<TValue>(Error error, string message = "Failure") =>
         new Result<TValue>(default, false, error, message);
+
+
 
 
 }

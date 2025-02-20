@@ -1,12 +1,11 @@
-﻿using MediatR;
-using MovieTracker.Application.Contracts.ExternalApisServices;
+﻿using MovieTracker.Application.Contracts.ExternalApisServices;
 using MovieTracker.Application.Contracts.MediatrR;
 using MovieTracker.Application.Errors;
 using MovieTracker.Application.UseCases.Movie.Dtos;
 using MovieTracker.Application.Wrappers;
 
 
-namespace MovieTracker.Application.UseCases.Movie.Queries.GetMovieByName;
+namespace MovieTracker.Application.UseCases.Movie.Queries;
 public record GetMovieByNameQuery(string name) : IQuery<List<MovieSearchDto>>;
 
 

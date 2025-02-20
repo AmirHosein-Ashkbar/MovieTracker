@@ -2,7 +2,7 @@
 
 namespace MovieTracker.Application.Errors;
 
-public record Error
+public class Error
 {
     private Error(string code, string description, ErrorType type, int statusCode)
     {
@@ -58,4 +58,5 @@ public enum ErrorType
     Forbidden = 7, 
     Unexpected = 8,
     Failure = 9,
+    Custom = 10,
 }

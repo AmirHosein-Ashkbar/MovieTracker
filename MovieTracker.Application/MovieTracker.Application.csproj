@@ -7,9 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Contracts\Repositories\" />
     <Folder Include="Extensions\ResultExtensions\" />
     <Folder Include="UseCases\Movie\Commands\" />
+    <Folder Include="UseCases\UseCaseTemplate\Commands\" />
+    <Folder Include="UseCases\UseCaseTemplate\Dtos\" />
+    <Folder Include="UseCases\UseCaseTemplate\Validators\" />
+    <Folder Include="UseCases\UseCaseTemplate\Queries\" />
+    <Folder Include="UseCases\User\Validators\" />
   </ItemGroup>
 
   <ItemGroup>

@@ -5,7 +5,7 @@ using MovieTracker.Application.Errors;
 using MovieTracker.Application.UseCases.Movie.Dtos;
 using MovieTracker.Application.Wrappers;
 
-namespace MovieTracker.Application.UseCases.Movie.Queries.GetMovieDetailsById;
+namespace MovieTracker.Application.UseCases.Movie.Queries;
 
 public record GetMovieDetailsByIdQuery(int Id) : IQuery<MovieDetailsDto>;
 

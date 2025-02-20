@@ -1,8 +1,6 @@
 ﻿using FluentValidation;
-using MediatR;
 using Microsoft.Extensions.DependencyInjection;
 using MovieTracker.Application.Behaviours;
-using MovieTracker.Application.UseCases.Movie.Queries.GetMovieByName;
 
 namespace MovieTracker.Application;
 public static class ConfigureServices
