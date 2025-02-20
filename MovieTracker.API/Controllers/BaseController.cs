@@ -19,8 +19,16 @@ public class BaseController : ControllerBase
             return result.ToProblemDetails();
 
 
-        return Ok(result);  
+        return Ok(result);
     }
+    protected async Task<IActionResult> SendAsync(IRequest<Result> request, CancellationToken ct = default)
+    {
+        var result = await Mediator.Send(request, ct);
+        if (!result.IsSuccess)
+            return result.ToProblemDetails();
 
+
+        return Ok(result);
+    }
 
 }

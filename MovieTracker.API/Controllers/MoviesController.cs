@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using MovieTracker.Application.UseCases.Movie.Queries.GetMovieByName;
-using MovieTracker.Application.UseCases.Movie.Queries.GetMovieDetailsById;
+using MovieTracker.Application.UseCases.Movie.Queries;
 using System.Net.Mime;
 
 namespace MovieTracker.API.Controllers;

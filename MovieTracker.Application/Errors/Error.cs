@@ -2,7 +2,7 @@
 
 namespace MovieTracker.Application.Errors;
 
-public class Error
+public record Error
 {
     private Error(string code, string description, ErrorType type, int statusCode)
     {

@@ -1,8 +1,12 @@
-﻿using Microsoft.Extensions.Configuration;
+﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using MovieTracker.Application.Contracts.ExternalApisServices;
+using MovieTracker.Application.Contracts.Repositories;
 using MovieTracker.Infrastructure.ExternalApis.TMDB.ApiCall;
 using MovieTracker.Infrastructure.ExternalApis.TMDB.ExternalApiService;
+using MovieTracker.Infrastructure.Persistance.Contexts;
+using MovieTracker.Infrastructure.Persistance.Repositories;
 using MovieTracker.Infrastructure.Settings;
 
 
@@ -14,6 +18,8 @@ public static class ConfigureServices
         services.AddScoped<ITMDBApiCall, TMDBApiCall>();
         services.AddScoped<ITMDBApiService, TMDBApiService>();
         services.Configure<TMDBSettings>(configuration.GetSection(TMDBSettings.Name));
+        services.AddDbContext<AppDbContext>(options => options.UseSqlServer(configuration.GetConnectionString("Default")));
+        services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
 
         return services;
     }
