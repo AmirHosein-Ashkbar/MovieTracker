@@ -1,5 +1,7 @@
-﻿namespace MovieTracker.Domain.Entities;
-public class Movie : BaseEntity
+﻿using MovieTracker.Domain.Contracts;
+
+namespace MovieTracker.Domain.Entities;
+public class Movie : BaseEntity, IEntity
 {
     public string ExternalId { get; set; }
     public string Name { get; set; }
