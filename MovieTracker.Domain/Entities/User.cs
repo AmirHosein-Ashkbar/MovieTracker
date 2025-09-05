@@ -10,4 +10,6 @@ public class User : BaseEntity, IEntity
     public string? FirstName { get; set; }
     public string? LastName { get; set; }
     public bool IsBan { get; set; } = false;
+
+    public ICollection<Like> Likes { get; set; }
 }

@@ -8,5 +8,11 @@ public class Movie : BaseEntity, IEntity
     public string Description { get; set; }
     public int Duration { get; set; }
     public int ReleaseYear { get; set; }
+    public int ReleaseDate { get; set; }
+    public string Status { get; set; }
+    public string ImdbId { get; set; }
+
+
+    public ICollection<Like> Likes { get; set; }
 
 }

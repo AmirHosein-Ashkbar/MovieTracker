@@ -3,15 +3,12 @@ using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using MovieTracker.Domain.Entities;
 
 namespace MovieTracker.Infrastructure.Persistance.Configurations;
-public class MovieConfiguration : IEntityTypeConfiguration<Movie>
+public class OtpConfiguration : IEntityTypeConfiguration<Otp>
 {
-    public void Configure(EntityTypeBuilder<Movie> builder)
+    public void Configure(EntityTypeBuilder<Otp> builder)
     {
         builder.Property(x => x.Id).UseIdentityColumn();
 
-        builder.HasMany(x => x.Likes)
-            .WithOne(x => x.Movie)
-            .HasForeignKey(x => x.MovieId);
-            
+        builder.Property(x => x.Code).HasMaxLength(10);
     }
 }
