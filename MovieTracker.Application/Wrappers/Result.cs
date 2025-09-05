@@ -5,14 +5,16 @@ namespace MovieTracker.Application.Wrappers;
 
 public class Result : IResult   
 {
+    public object? Value { get; set; } = null;
     public bool IsSuccess { get; }
     public string Message { get; } = string.Empty;
-    public Error Error { get; }
+    public long Total { get; }
+    public Error? Error { get; }
 
-    protected Result(bool isSuccess, Error error, string message = "")
+    protected Result(bool isSuccess, Error? error, string message = "")
     {
-        if(isSuccess && error != Error.None() ||
-            !isSuccess && error == Error.None())
+        if (isSuccess && error is not null ||
+           !isSuccess && error is null)
         {
             throw new ArgumentException("Invalid error", nameof(error));
         }
@@ -22,12 +24,19 @@ public class Result : IResult
         Message = message;
     }
 
-    public static Result Success() => new Result(true, Error.None());
+
+    protected Result(object value, bool isSuccess, Error? error, string message = "") : this(isSuccess, error, message)
+    {
+        Value = value;
+    }
+
+
+    public static Result Success() => new Result(true, null);
+    public static Result Success(object value) => new Result(value, true, null);
     
-    public static Result Success<TValue>(List<TValue> values, int pageNumber, int pageSize) => new PaginatedResult<TValue>(values, pageNumber, pageSize, true, Error.None());
 
     public static Result<TValue> Success<TValue>(TValue value) => 
-        new Result<TValue>(value, true, Error.None(), "");
+        new Result<TValue>(value, true, null, "");
 
 
     public static Result Failure(string message = "Failure") =>
@@ -38,8 +47,6 @@ public class Result : IResult
 
     public static Result<TValue> Failure<TValue>(Error error, string message = "Failure") =>
         new Result<TValue>(default, false, error, message);
-
-
 
 
 }
