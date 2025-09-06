@@ -10,5 +10,12 @@ public class OtpConfiguration : IEntityTypeConfiguration<Otp>
         builder.Property(x => x.Id).UseIdentityColumn();
 
         builder.Property(x => x.Code).HasMaxLength(10);
+
+
+        builder.HasOne(o => o.User)
+            .WithOne(u => u.Otp)
+            .HasPrincipalKey<Otp>(o => o.UserId)
+            .HasForeignKey<User>(u => u.OtpId);
+
     }
 }

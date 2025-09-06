@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MovieTracker.Application.Contracts.Repositories;
-using MovieTracker.Domain.Entities;
 using MovieTracker.Infrastructure.Persistance.Contexts;
 using System.Linq.Expressions;
 

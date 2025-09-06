@@ -1,7 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MovieTracker.Domain.Entities;
 using MovieTracker.Infrastructure.Persistance.Configurations;
-using System.ComponentModel.DataAnnotations;
 
 namespace MovieTracker.Infrastructure.Persistance.Contexts;
 public class AppDbContext : DbContext 
@@ -20,9 +19,10 @@ public class AppDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.ApplyConfigurationsFromAssembly(typeof(MovieConfiguration).Assembly);
-
     }
 
     public DbSet<Movie> Movies { get; set; }
-        
+    public DbSet<User> Users { get; set; }
+    public DbSet<Like> Likes { get; set; }
+    public DbSet<Otp> Otps { get; set; }
 }
