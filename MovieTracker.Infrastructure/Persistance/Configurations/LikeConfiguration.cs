@@ -7,7 +7,8 @@ public class LikeConfiguration : IEntityTypeConfiguration<Like>
 {
     public void Configure(EntityTypeBuilder<Like> builder)
     {
-        builder.Property(x => x.Id).UseIdentityColumn();
+        builder.HasKey(x => x.Id);
+        //builder.Property(x => x.Id).UseIdentityColumn();
 
         builder.HasOne(l => l.User)
             .WithMany(u => u.Likes)

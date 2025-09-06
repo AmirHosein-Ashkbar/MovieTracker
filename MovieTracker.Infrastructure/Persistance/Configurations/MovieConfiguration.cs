@@ -7,7 +7,7 @@ public class MovieConfiguration : IEntityTypeConfiguration<Movie>
 {
     public void Configure(EntityTypeBuilder<Movie> builder)
     {
-        builder.Property(x => x.Id).UseIdentityColumn();
+        builder.HasKey(x => x.Id);
 
         builder.HasMany(x => x.Likes)
             .WithOne(x => x.Movie)

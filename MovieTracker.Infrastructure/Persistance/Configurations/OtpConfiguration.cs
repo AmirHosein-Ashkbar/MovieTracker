@@ -7,7 +7,7 @@ public class OtpConfiguration : IEntityTypeConfiguration<Otp>
 {
     public void Configure(EntityTypeBuilder<Otp> builder)
     {
-        builder.Property(x => x.Id).UseIdentityColumn();
+        builder.HasKey(x => x.Id);
 
         builder.Property(x => x.Code).HasMaxLength(10);
 
