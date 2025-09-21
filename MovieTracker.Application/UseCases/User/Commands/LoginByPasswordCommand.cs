@@ -14,14 +14,14 @@ public class LoginByPasswordCommandHandler(IRepository<Domain.Entities.User> use
         var user = await userRepository.GetAsync(x => x.Username == request.Username);
         if (user is null)
         {
-            return Result.Failure(Error.BadRequest(), "Wrong Username or Password");
+            return Result.Failure("Wrong Username or Password");
         }
 
         string passwordHash = request.Password;
 
         if(request.Password != user.Password)
         {
-            return Result.Failure(Error.BadRequest(), "Wrong Username or Password");
+            return Result.Failure("Wrong Username or Password");
         }
 
 

@@ -1,4 +1,5 @@
-﻿using MediatR;
+﻿using System.Reflection.Metadata.Ecma335;
+using MediatR;
 using MovieTracker.Application.Contracts.ExternalApisServices;
 using MovieTracker.Application.Contracts.MediatrR;
 using MovieTracker.Application.Errors;
@@ -16,7 +17,7 @@ public class GetMovieDetailsByIdQueryHandler(ITMDBApiService TMDBApiService) : I
     {
         var response = await TMDBApiService.GetMovieDetailsById(request.Id);
         if (response.TMDBId == 0)
-            return Error.NotFound();
+            return Result.Failure<MovieDetailsDto>();
         return response;
     }
 }

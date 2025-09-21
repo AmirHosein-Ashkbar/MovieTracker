@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using System.Net;
+using Microsoft.AspNetCore.Http;
 
 namespace MovieTracker.Application.Errors;
 
@@ -61,3 +62,5 @@ public enum ErrorType
     Failure = 9,
     Custom = 10,
 }
+
+

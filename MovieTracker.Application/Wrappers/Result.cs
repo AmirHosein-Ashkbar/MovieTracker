@@ -1,17 +1,18 @@
-﻿
-using MovieTracker.Application.Errors;
+﻿using MovieTracker.Application.Errors;
+using MovieTracker.Domain.Enums;
 
 namespace MovieTracker.Application.Wrappers;
 
-public class Result : IResult   
+public class Result : IResult
 {
     public object? Value { get; set; } = null;
     public bool IsSuccess { get; }
     public string Message { get; } = string.Empty;
     public long Total { get; }
-    public Error? Error { get; }
+    public string? Error { get; }
+    public StatusCode StatusCode { get; } = StatusCode.OK;
 
-    protected Result(bool isSuccess, Error? error, string message = "")
+    protected Result(bool isSuccess, StatusCode statusCode, string? error, string message = "")
     {
         if (isSuccess && error is not null ||
            !isSuccess && error is null)
@@ -25,29 +26,32 @@ public class Result : IResult
     }
 
 
-    protected Result(object value, bool isSuccess, Error? error, string message = "") : this(isSuccess, error, message)
+    protected Result(object value, bool isSuccess, StatusCode statusCode, string? error, string message = "") : this(isSuccess, statusCode, error, message)
     {
         Value = value;
     }
 
 
-    public static Result Success() => new Result(true, null);
-    public static Result Success(object value) => new Result(value, true, null);
-    
+    public static Result Success() => new Result(true, StatusCode.OK, null);
+    public static Result Success(StatusCode statusCode) => new Result(true, statusCode, null);
+    public static Result Success(object value) => new Result(value, true, StatusCode.OK, null);
+    public static Result Success(object value, StatusCode statusCode) => new Result(value, true, statusCode, null);
 
     public static Result<TValue> Success<TValue>(TValue value) => 
-        new Result<TValue>(value, true, null, "");
+        new Result<TValue>(value, true, StatusCode.OK,  null, "");
+    public static Result<TValue> Success<TValue>(TValue value, StatusCode statusCode) =>
+       new Result<TValue>(value, true, statusCode, null, "");
 
+    public static Result Failure(string error = "Failure") =>
+        new Result(false, StatusCode.BadRequest, error, "");
 
-    public static Result Failure(string message = "Failure") =>
-        new Result(false, Error.BadRequest(), message);
+    public static Result Failure(string error = "Failure", StatusCode statusCode = StatusCode.BadRequest) => 
+        new Result(false, statusCode, error, "");
 
-    public static Result Failure(Error error, string message = "Failure") => 
-        new Result(false, error, message);
-
-    public static Result<TValue> Failure<TValue>(Error error, string message = "Failure") =>
-        new Result<TValue>(default, false, error, message);
-
+    public static Result<TValue> Failure<TValue>(string error = "Failure", StatusCode statusCode = StatusCode.BadRequest) =>
+        new Result<TValue>(default, false, statusCode, error, "");
+    public static Result<TValue> Failure<TValue>(string error = "Failure") =>
+       new Result<TValue>(default, false, StatusCode.BadRequest, error, "");
 
 }
 
@@ -55,7 +59,7 @@ public class Result<TValue> : Result
 {
     private readonly TValue? _value;
 
-    public Result(TValue? value, bool isSuccess, Error error, string message) : base(isSuccess, error, message) 
+    public Result(TValue? value, bool isSuccess, StatusCode statusCode, string? error, string message) : base(isSuccess, statusCode, error, message) 
     {
         _value = value;
     }
@@ -66,7 +70,7 @@ public class Result<TValue> : Result
 
     public static implicit operator Result<TValue>(TValue data) => Result<TValue>.Success(data);
 
-    public static implicit operator Result<TValue>(Error error) => Result<TValue>.Failure<TValue>(error);
+    //public static implicit operator Result<TValue>(Error error) => Result<TValue>.Failure<TValue>(error);
 }
 
 
