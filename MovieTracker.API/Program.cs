@@ -3,6 +3,7 @@ using MovieTracker.API.Filters;
 using MovieTracker.Application;
 using MovieTracker.Infrastructure;
 using Serilog;
+using Scalar.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,9 +16,11 @@ builder.Services.AddControllers(configuration =>
 {
     configuration.Filters.Add<ValidationExceptionHandlingFilter>();
 });
-    
+
 
 builder.Services.AddSwagger();
+//builder.Services.AddOpenApi();
+
 
 builder.Services.AddHealthCheck();  
 

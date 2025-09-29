@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using MovieTracker.Application.Errors;
 using MovieTracker.Application.Wrappers;
+using MovieTracker.Domain.Enums;
 using IResult = Microsoft.AspNetCore.Http.IResult;
 
 namespace MovieTracker.API.Extensions;
@@ -15,12 +16,12 @@ public static class ResultExtensions
 
         var problem = new ProblemDetails
         {
-            Status = result.Error.StatusCode,
-            Title = result.Error.Type.ToString(),
-            Type = GetType(result.Error.Type),
+            Status = (int)result.StatusCode,
+            Title = result.Error,
+            Type = GetType(result.StatusCode),
             Extensions = new Dictionary<string, object?>
             {
-                {"errors", new { result.Error.Description } },
+                {"errors", new { result.Error } },
             }
         };
 
@@ -28,18 +29,18 @@ public static class ResultExtensions
 
     }
     
-    static string GetType(ErrorType errorType) =>
+    static string GetType(StatusCode errorType) =>
         errorType switch
         {
-            ErrorType.NotFound => "https://datatracker.ietf.org/doc/html/rfc9110#name-404-not-found",
-            ErrorType.Conflict => "https://datatracker.ietf.org/doc/html/rfc9110#name-409-conflict",
-            ErrorType.Forbidden => "https://datatracker.ietf.org/doc/html/rfc9110#name-403-forbidden",
-            ErrorType.Unauthorized => "https://datatracker.ietf.org/doc/html/rfc9110#name-401-unauthorized",
-            ErrorType.Validation => "https://datatracker.ietf.org/doc/html/rfc9110#name-400-bad-request",
-            ErrorType.BadRequest => "https://datatracker.ietf.org/doc/html/rfc9110#name-400-bad-request",
-            ErrorType.Unexpected => "https://datatracker.ietf.org/doc/html/rfc9110#name-500-internal-server-error",
-            ErrorType.Failure => "https://datatracker.ietf.org/doc/html/rfc9110#name-500-internal-server-error",
-            ErrorType.Unprocessable => "https://datatracker.ietf.org/doc/html/rfc9110#name-422-unprocessable-content",
+            StatusCode.NotFound => "https://datatracker.ietf.org/doc/html/rfc9110#name-404-not-found",
+            StatusCode.Conflict => "https://datatracker.ietf.org/doc/html/rfc9110#name-409-conflict",
+            StatusCode.Forbidden => "https://datatracker.ietf.org/doc/html/rfc9110#name-403-forbidden",
+            StatusCode.Unauthorized => "https://datatracker.ietf.org/doc/html/rfc9110#name-401-unauthorized",
+            //StatusCode.Validation => "https://datatracker.ietf.org/doc/html/rfc9110#name-400-bad-request",
+            StatusCode.BadRequest => "https://datatracker.ietf.org/doc/html/rfc9110#name-400-bad-request",
+            //StatusCode.Unexpected => "https://datatracker.ietf.org/doc/html/rfc9110#name-500-internal-server-error",
+            //StatusCode.Failure => "https://datatracker.ietf.org/doc/html/rfc9110#name-500-internal-server-error",
+            //StatusCode.Unprocessable => "https://datatracker.ietf.org/doc/html/rfc9110#name-422-unprocessable-content",
             _ => "https://datatracker.ietf.org/doc/html/rfc9110#name-400-bad-request"
         };
 }

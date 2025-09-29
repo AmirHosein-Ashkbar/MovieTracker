@@ -15,20 +15,20 @@ public class BaseController : ControllerBase
     protected async Task<IActionResult> SendAsync<TValue>(IRequest<Result<TValue>> request, CancellationToken ct = default)
     {
         var result = await Mediator.Send(request, ct);
-        if (!result.IsSuccess)
-            return result.ToProblemDetails();
+        //if (!result.IsSuccess)
+        //    return result.ToProblemDetails();
 
 
-        return Ok(result);
+        return StatusCode((int)result.StatusCode, result);
     }
     protected async Task<IActionResult> SendAsync(IRequest<Result> request, CancellationToken ct = default)
     {
         var result = await Mediator.Send(request, ct);
-        if (!result.IsSuccess)
-            return result.ToProblemDetails();
+        //if (!result.IsSuccess)
+        //    return result.ToProblemDetails();
 
 
-        return Ok(result);
+        return StatusCode((int)result.StatusCode, result);
     }
 
 }
