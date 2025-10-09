@@ -1,5 +1,7 @@
-﻿namespace MovieTracker.Domain.Entities;
-public abstract class BaseEntity
+﻿using MovieTracker.Domain.Contracts;
+
+namespace MovieTracker.Domain.Entities;
+public abstract class BaseEntity : IEntity
 {
     public Guid Id { get; set; }
     public DateTime CreatedAt { get; set; }
