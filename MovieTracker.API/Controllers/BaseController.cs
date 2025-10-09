@@ -1,7 +1,6 @@
 ﻿using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using MovieTracker.Application.Wrappers;
-using MovieTracker.API.Extensions;
 
 namespace MovieTracker.API.Controllers;
 [Route("api/[controller]")]
