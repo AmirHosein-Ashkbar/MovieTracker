@@ -38,22 +38,13 @@ public class Result : IResult
     public static Result Success(object value) => new Result(value, true, StatusCode.OK, null);
     public static Result Success(StatusCode statusCode, object value) => new Result(value, true, statusCode, null);
 
-    public static Result<TValue> Success<TValue>(TValue value) => 
-        new Result<TValue>(value, true, StatusCode.OK,  null, "");
-    public static Result<TValue> Success<TValue>(StatusCode statusCode, TValue value) =>
-       new Result<TValue>(value, true, statusCode, null, "");
-
     public static Result Failure(string error = "Failure") =>
         new Result(false, StatusCode.BadRequest, error, "");
 
     public static Result Failure(StatusCode statusCode, string error = "Failure") => 
         new Result(false, statusCode, error, "");
 
-    public static Result<TValue> Failure<TValue>(string error = "Failure") =>
-   new Result<TValue>(default, false, StatusCode.BadRequest, error, "");
-    public static Result<TValue> Failure<TValue>(StatusCode statusCode, string error = "Failure") =>
-        new Result<TValue>(default, false, statusCode, error, "");
-
+  
 
 }
 
@@ -69,6 +60,17 @@ public class Result<TValue> : Result
     public TValue Value => IsSuccess
         ? _value!
         : throw new InvalidOperationException("the value of a failure result can't be accessed.");
+
+    public static Result<TValue> Success(TValue value) =>
+        new Result<TValue>(value, true, StatusCode.OK, null, "");
+    public static Result<TValue> Success(StatusCode statusCode, TValue value) =>
+       new Result<TValue>(value, true, statusCode, null, "");
+
+    public static Result<TValue> Failure(string error = "Failure") =>
+ new Result<TValue>(default, false, StatusCode.BadRequest, error, "");
+    public static Result<TValue> Failure(StatusCode statusCode, string error = "Failure") =>
+        new Result<TValue>(default, false, statusCode, error, "");
+
 
     public static implicit operator Result<TValue>(TValue data) => Result<TValue>.Success(data);
     //public static implicit operator Result(TValue data) => Result.Success<TValue>(data);
